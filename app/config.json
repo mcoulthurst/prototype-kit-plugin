@@ -1,0 +1,8 @@
+{
+  "serviceName": "Plugin tests",
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}
