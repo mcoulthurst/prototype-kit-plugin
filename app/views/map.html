@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% from "../../node_modules/hmlr-simple-map/macros/macro.njk" import hmlrSimpleMap %}
+{% from "hmlrSimpleMap.njk" import hmlrSimpleMap %}
 
 {% block pageTitle %}
 Map Component – {{ serviceName }} – GOV.UK Prototype Kit
@@ -93,6 +93,25 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
           color: "#00703c",
           width: 1,
           lineDash: [10, 4]
+        }
+      }
+    }) }}
+
+    {{ hmlrSimpleMap({
+      alt: "Demo geojson from INSPIRE",
+      caption: "Example 5 Overlapping boundary: Note RGBA format of fill 00703c99, 00703c + 99 alpha (99/FF % transparency)",
+
+      path_to_geometry: "/public/overlap_boundary.geojson",
+
+      height: "800px",
+      style: {
+        fill: {
+          color: "#d4351c22"
+        },
+        stroke: {
+          color: "#d4351c",
+          width: 3,
+          lineDash: [4, 4]
         }
       }
     }) }}
