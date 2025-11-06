@@ -12,17 +12,6 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}
 
 
-
-
-{% block beforeContent %}
-<style>
-  figure {
-    margin: 0px;
-  }
-</style>
-{% endblock %}
-
-
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -34,8 +23,17 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
       alt: "Demo geojson from INSPIRE",
       caption: "Example of overlapping boundary with custom tiles",
       path_to_geometry: "/public/liskeard_overlaps.geojson",
-      style: "red dash",
+      style: {
+        fill: {
+          color: "#4c2c9244"
+        },
+        stroke: {
+          color: "#4c2c9266",
+          width: 0.5
+        }
+      },
       zoom: 15.5,
+      interactive: "true",
       tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
@@ -87,12 +85,12 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
       const message = event.detail.message;
       console.log('Message:', message);
 
-      const id = message;
-      let address = names[message];
+      const id = message.values_.INSPIREID;
+      let address = names[id];
       if(address === undefined){
         address = "No property of measurable worth" +"<br/>&nbsp;";
       }
-      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + message +": " + address ;
+      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + id +": " + address ;
     });
 
   })
