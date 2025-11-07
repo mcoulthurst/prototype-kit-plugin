@@ -1,5 +1,6 @@
 {
   "serviceName": "Plugin tests",
+  "port": 80,
   "plugins": {
     "govuk-frontend": {
       "rebrand": true

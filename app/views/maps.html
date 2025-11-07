@@ -40,7 +40,10 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
     {{ hmlrSimpleMap({
       alt: "Map of Cornwall, showing a field north of Liskeard",
       caption: "Example 3, loading external geojson",
-      path_to_geometry: "/public/boundary.json"
+      layers:[
+      {
+        path_to_geometry: "/public/boundary.json"
+      }]
     }) }}
 
     <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
@@ -48,71 +51,82 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
     {{ hmlrSimpleMap({
       alt: "Map of Cornwall, showing a field north of Liskeard",
       caption: "Example 4, loading external geojson with custom styling, custom view (centre and zoom)",
-      path_to_geometry: "/public/boundary.json",
       coords: "225000, 65000",
       zoom: 15,
-      style: {
-        fill: {
-          color: "#d4351c33"
-        },
-        stroke: {
-          color: "#d4351c",
-          width: 2,
-          lineDash: [4, 4]
+      layers:[
+        {
+          path_to_geometry: "/public/boundary.json",
+          style: {
+            fill: {
+              color: "#d4351c33"
+            },
+            stroke: {
+              color: "#d4351c",
+              width: 2,
+              lineDash: [4, 4]
+            }
+          }
         }
-      }
+      ]
     }) }}
 
     <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
-
-
-
-    <!--  see https://www.jmiron.com/percent-to-hex-converter fro hex/percentage convertor -->
+    <!--  see https://www.jmiron.com/percent-to-hex-converter for hex/percentage convertor -->
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
       caption: "Example 5 Overlapping boundary: Note RGBA format of fill 00703c99, 00703c + 99 alpha (99/FF so 153/255 = 60% transparency)",
-
-      path_to_geometry: "/public/demo.json",
-      style: {
-        fill: {
-          color: "#00703c33"
-        },
-        stroke: {
-          color: "#00703c",
-          width: 1,
-          lineDash: [10, 4]
+      layers:[
+        {
+          path_to_geometry: "/public/demo.json",
+          style: {
+            fill: {
+              color: "#00703c33"
+            },
+            stroke: {
+              color: "#00703c",
+              width: 1,
+              lineDash: [10, 4]
+            }
+          }
         }
-      }
+      ]
     }) }}
 
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
       caption: "Example 6 Overlapping boundary: custom OpenLayers style",
-
-      path_to_geometry: "/public/overlap_boundary.geojson",
-
       height: "800px",
-      style: {
-        fill: {
-          color: "#4c2c9244"
-        },
-        stroke: {
-          color: "#4c2c92",
-          width: 10,
-          lineDash: [1, 20]
+      layers:[
+        {
+          path_to_geometry: "/public/overlap_boundary.geojson",
+          style: {
+            fill: {
+              color: "#4c2c9244"
+            },
+            stroke: {
+              color: "#4c2c92",
+              width: 10,
+              lineDash: [1, 20]
+            }
+          }
         }
-      }
+      ]
     }) }}
 
 
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
-      caption: "Example of overlapping boundary with custom tiles",
-      path_to_geometry: "/public/liskeard_overlaps.geojson",
-      style: "hidden",
-      interactive: "true",
-      zoom: 15.5
+      caption: "Example of hidden geometry with interactivity to dispatch click event",
+      zoom: 15.5,
+      layers:[
+        {
+          path_to_geometry: "/public/liskeard_overlaps.geojson",
+          style: "hidden",
+          interactive: "true"
+        }
+      ]
+        
     }) }}
 
     <p class="govuk-body" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p>

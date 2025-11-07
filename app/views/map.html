@@ -22,18 +22,53 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
       caption: "Example of overlapping boundary with custom tiles",
-      path_to_geometry: "/public/liskeard_overlaps.geojson",
-      style: {
-        fill: {
-          color: "#4c2c9244"
+      layers:[
+        {
+          path_to_geometry: "/public/liskeard_overlaps.geojson",
+          interactive: "true",
+          style: {
+            fill: {
+              color: "#4c2c9211"
+            },
+            stroke: {
+              color: "#4c2c9211",
+              width: 0.5
+            }
+          }
         },
-        stroke: {
-          color: "#4c2c9266",
-          width: 0.5
+        {
+          path_to_geometry: "/public/layer1.geojson",
+          interactive: "true",
+          style: {
+            fill: {
+              color: "#d4351c01"
+            },
+            stroke: {
+              color: "#d4351c",
+              width: 2
+            }
+          }
+        },
+        {
+          path_to_geometry: "/public/layer2.geojson",
+          interactive: "true",
+          style: {
+            fill: {
+              color: "#00703c11"
+            },
+            stroke: {
+              color: "#00703c",
+              width: 2
+            }
+          }
+        },
+        {
+          path_to_geometry: "/public/layer3.geojson",
+          interactive: "true",
+          style: "BLUE"
         }
-      },
-      zoom: 15.5,
-      interactive: "true",
+      ],
+      zoom: 14.5,
       tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
