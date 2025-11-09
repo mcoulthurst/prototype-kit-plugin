@@ -22,9 +22,11 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
       caption: "Example of overlapping boundary with custom tiles",
+      layerControls: true,
       layers:[
         {
-          path_to_geometry: "/public/liskeard_overlaps.geojson",
+          path_to_geometry: "/public/data/liskeard_overlaps.geojson",
+          
           interactive: "true",
           style: {
             fill: {
@@ -37,7 +39,8 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
           }
         },
         {
-          path_to_geometry: "/public/layer1.geojson",
+          path_to_geometry: "/public/data/layer1.geojson",
+    
           interactive: "true",
           style: {
             fill: {
@@ -50,7 +53,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
           }
         },
         {
-          path_to_geometry: "/public/layer2.geojson",
+          path_to_geometry: "/public/data/layer2.geojson",
           interactive: "true",
           style: {
             fill: {
@@ -63,7 +66,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
           }
         },
         {
-          path_to_geometry: "/public/layer3.geojson",
+          path_to_geometry: "/public/data/layer3.geojson",
           interactive: "true",
           style: "BLUE"
         }
