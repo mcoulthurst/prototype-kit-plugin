@@ -1,4 +1,4 @@
-{% extends "layouts/main.html" %}
+{% extends "layouts/portal.html" %}
 
 {% from "hmlrSimpleMap.njk" import hmlrSimpleMap %}
 
@@ -11,6 +11,28 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 {{ govukHeader() }}
 {% endblock %}
 
+{% block beforeContent %}
+
+
+<style>
+.hmlr-map{
+  position: relative;
+  width: 100%;
+  left: 320px;
+}
+.map-controls{
+  font-size: xx-small;
+  position: absolute;
+  top: 250px;
+  left: 88px;
+  z-index: 10;
+  width: 320px;
+  height:100%;
+  background-color: #fff;
+}
+</style>
+{% endblock %}
+
 
 {% block content %}
 <div class="govuk-grid-row">
@@ -18,19 +40,20 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 
     <h1 class="govuk-heading-xl">Map Component Test</h1>
 
-
+    <p class="govuk-body" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p>
+            
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
-      caption: "Example of overlapping boundary with custom tiles",
-      layerControls: true,
+      caption: "Example of layered boundaries with controls and custom map tiles",
+      layerControls: "true",
       layers:[
         {
           path_to_geometry: "/public/data/liskeard_overlaps.geojson",
-          
+          description:"INSPIRE data",
           interactive: "true",
           style: {
             fill: {
-              color: "#4c2c9211"
+              color: "#4c2c9222"
             },
             stroke: {
               color: "#4c2c9211",
@@ -40,8 +63,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
         },
         {
           path_to_geometry: "/public/data/layer1.geojson",
-    
-          interactive: "true",
+
           style: {
             fill: {
               color: "#d4351c01"
@@ -54,7 +76,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
         },
         {
           path_to_geometry: "/public/data/layer2.geojson",
-          interactive: "true",
+          description:"Custom description",
           style: {
             fill: {
               color: "#00703c11"
@@ -67,7 +89,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
         },
         {
           path_to_geometry: "/public/data/layer3.geojson",
-          interactive: "true",
+          description:"Blue boundary",
           style: "BLUE"
         }
       ],
@@ -75,7 +97,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
       tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
-    <p class="govuk-body" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p>
+    
 
 
   </div>

@@ -1,0 +1,348 @@
+{% extends "layouts/mainWithInter.html" %}
+{% set serviceName= "HMLR title search" %}
+{% set pageName="Fullscreen test" %}
+
+{% set bodyClasses = "full-width" %}
+{% set containerClasses = "full-width" %}
+
+
+{% block beforeContent %}
+<style>
+
+  html, body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  }
+
+  #navbar{
+    display: inline;
+    min-width: 180px;
+    max-width:300px;
+    overflow: hidden;
+    padding-right:10px;
+  }
+  .hmlr-map-wrapper{
+    background-color: aliceblue;
+  }
+  /* PAGE LAYOUT */
+  .govuk-grid-column-20-percent{
+    width: 20%;
+    box-sizing: border-box;
+    padding: 0 15px;
+    float: left;
+  }
+  .govuk-main-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .govuk-width-container{
+    max-width:98%;
+    width:98%;
+  }
+  /* HIDE GDS FOOTER AND DISPLAY IN NAVBAR */
+  .govuk-footer {
+    display:none;
+  }
+  /* HACK FOR REBRAND */
+  .govuk-service-navigation__service-name:not(:last-child){
+    margin-right: 0 ! important;
+  }
+  .links {
+    min-width:280px;
+  }
+  .logo {
+    min-width:260px;
+  }
+  .govuk-service-navigation__wrapper{
+    margin-left: auto;
+  }
+  .govuk-summary-list__value{
+    height: 50px;
+  }
+  .ol-scale-line {
+    top: 780px;
+    left: 20px;
+  }
+  .max-width{
+    width: calc(100% - 300px);
+    float: left;
+  }
+
+
+  .hmlr-map-wrapper{
+    height: 760px;
+  }
+
+
+  .search-bar {
+    display: flex;
+    flex-direction: row;
+    height: 38px;
+  }
+  .map__search_term {
+    position: relative;
+    z-index: 10;
+    height: 38px;
+    margin: 0;
+    padding: 1px;
+    border: 2px solid #0b0c0c;
+    border-radius: 0;
+    width: 85%;
+  }
+  .search-button {
+    height: 38px;
+    width: 38px;
+    cursor: pointer;
+    background: #0B0C0C url("/public/images/search-button.png") no-repeat 2px 50%;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .layer_controls{
+    position:absolute;
+    bottom: -10px;
+    left:10px;
+    padding-right: 10px;
+    min-width: 180px;
+    max-width: 300px;
+    width: 100%;
+  }
+
+  .govuk-template--rebranded .govuk-header {
+    background: #00703c;
+  }
+  .govuk-template--rebranded .govuk-header__link--homepage:not(:focus) {
+    background-color: #00703c;
+  }
+  @media (min-width: 48.0625em) {
+  .govuk-template--rebranded .govuk-header__service-name {
+    margin: 10px 0 11px;
+  }
+}
+
+</style>
+{% endblock %}
+
+{% block header %}
+<header class="govuk-header govuk-header--hmlr " role="banner" data-module="govuk-header">
+  <div class="govuk-header__container govuk-width-container">
+    <div class="govuk-header__content govuk-header__content--hmlr">
+      <a href="#" class="govuk-header__link govuk-header__service-name">
+        Search to title information
+      </a>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="container" class="govuk-grid-row">
+
+
+  <div id="navbar" class="govuk-grid-column-20-percent">
+
+<!--     <h2 class="govuk-heading-s">
+      Search by address or title number
+    </h2> -->
+    <div class="search-bar govuk-!-padding-top-0 govuk-!-margin-bottom-2">
+      <input class="govuk-input search-field map__search_term" id="search-field" name="search" type="text" value="">
+      <div class="search-bar-input">
+        <button class="search-button map__search_button" type="button" name="search" id="find-btn" data-bind="click: flexSearchAddresses">
+      </button></div>
+    </div>
+
+    <p class="govuk-body-s" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p>
+
+  </div>
+  <!-- MAP  -->
+  <div class="max-width">  
+    {{ hmlrSimpleMap({
+      alt: "Demo geojson from INSPIRE",
+      caption: "",
+      width: "100%",
+      height: "100%",
+      layerControls: "true",
+      layers:[
+        {
+          
+          description:"Registrations (INSPIRE)",
+          interactive: "true",
+          style: {
+            fill: {
+              color: "#4c2c9222"
+            },
+            stroke: {
+              color: "#d4351c33",
+              width: 1
+            }
+          }
+        },
+        {
+          path_to_geometry: "/public/data/layer2.geojson",
+          description:"Custom boundary",
+          style: {
+            fill: {
+              color: "#d4351c01"
+            },
+            stroke: {
+              color: "#d4351c",
+              width: 2
+            }
+          }
+        }
+      ],
+      zoom: 14.5,
+      tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+    }) }}
+
+
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block pageScripts %}
+<script>
+
+function setElementHeight(selector, aspectRatio) {
+  const el = document.querySelector(selector);
+  if (!el) return;
+
+  function updateHeight() {
+    console.log('ht', window.innerHeight - 175);
+    
+    el.style.height = window.innerHeight - 145 + 'px';
+  }
+
+  // Run on load and resize
+  window.addEventListener('load', updateHeight);
+  window.addEventListener('resize', updateHeight);
+}
+
+setElementHeight('.hmlr-map-wrapper');
+setElementHeight('#navbar');
+
+
+
+  var names = {};
+  names[40902075] = "Field adjacent to Menheniot Railway Bridge, Station Road, Menheniot, Cornwall PL14 3RG";
+  names[61650471] = "Land rear of St. Martin's Church, Church Lane, Liskeard, Cornwall PL14 4EF";
+  names[41018856] = "Grazing field south of Doublebois Village Hall, Doublebois, Cornwall PL14 6HJ";
+  names[15061225] = "Vacant plot opposite Liskeard Community Hospital, Clemo Road, Liskeard, Cornwall PL14 3QS";
+  names[15062864] = "Agricultural land adjacent to Moorswater Industrial Estate, Liskeard, Cornwall PL14 4EL";
+  names[15068131] = "Paddock behind terraced cottages, Pengover Road, Liskeard, Cornwall PL14 4HN";
+  names[15068053] = "Scrubland north of Caradon Hill transmission mast, St. Cleer, Cornwall PL14 5DA";
+  names[57831470] = "Meadow bounded by West Looe River, Coldrenick, St. Keyne, Cornwall PL14 4RY";
+  names[15062718] = "Orchard land adjacent to Tremar Coombe, St. Cleer Road, Liskeard, Cornwall PL14 6RU";
+  names[53485444] = "Former miners' cottages site, Herodsfoot Common, Herodsfoot, Cornwall PL14 4QW";
+  names[52799872] = "Pasture field east of Duloe Stone Circle, Duloe, Cornwall PL14 4PP";
+  names[52796451] = "Vacant ground behind Liskeard Cattle Market, Pig Street, Liskeard, Cornwall PL14 3JE";
+  names[52775568] = "Rough grazing on Bodmin Moor boundary, Minions, Cornwall PL14 5LE";
+  names[54696254] = "Smallholding adjacent to Liskeard & Looe Union Canal, Moorswater, Cornwall PL14 4EH";
+  names[15065839] = "Building plot opposite Trevalga Farm, Trevalga Lane, St. Keyne, Cornwall PL14 4SA";
+  names[15068101] = "Moorland strip south of Cheesewring Quarry access road, Minions, Cornwall PL14 5LF";
+  names[60808505] = "Garden land behind Rose Cottage, Penlaurel Lane, Quethiock, Cornwall PL14 3RB";
+  names[15068528] = "Waste ground adjoining Liskeard Railway Station car park, Station Road, Liskeard, Cornwall PL14 4BQ";
+  names[15069921] = "Hillside pasture above Golitha Falls, Draynes Bridge, St. Neot, Cornwall PL14 6ND";
+  names[15070116] = "Derelict barn site, Trekeivesteps Farm access, Darite, Cornwall PL14 5HG";
+  names[15069958] = "Copse woodland east of Siblyback Lake, Commonmoor, Cornwall PL14 6HU";
+  names[15069669] = "Former chapel grounds, Pendrift Road, Trewidland, Cornwall PL14 3PE";
+  names[15069207] = "Sloping field north of Trethevy Quoit monument, Trethevy, Cornwall PL14 3QE";
+  names[15068131] = "Allotment strip behind Millpool Head, Looe Mills, Cornwall PL14 4QA";
+  names[15064943] = "Bracken land adjoining Carnglaze Caverns entrance, St. Neot, Cornwall PL14 6HQ";
+  names[15064943] = "Building plot near Warleggan Village Green, Warleggan, Cornwall PL30 4FA";
+  names[15068053] = "Meadow bounded by River Fowey, Golant Road, St. Winnow, Cornwall PL14 3NX";
+  names[43768145] = "Rough ground adjacent to Hurlers Stone Circles car park, Minions, Cornwall PL14 5HD";
+
+
+  
+  document.addEventListener("DOMContentLoaded", (event) => {
+    console.log('page loaded');
+
+    // add custom listener for map event: hmlrMapClickEvent
+    document.addEventListener('hmlrMapClickEvent', (event) => {
+      const message = event.detail.message;
+      console.log('Message:', message);
+
+      const id = message.values_.INSPIREID;
+      let address = names[id];
+      if(address === undefined){
+        address = "No property of measurable worth" +"<br/>&nbsp;";
+      }
+      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + id +": " + address ;
+    });
+
+    var count = 0;
+    const geojson = [
+      "/public/data/liskeard_overlaps.geojson",
+      "/public/data/layer1.geojson",
+      "/public/data/layer2.geojson",
+      "/public/data/layer3.geojson",
+    ];
+    const retrievedMap = document.getElementById('map1')._olMap;
+    document.getElementById('find-btn').addEventListener('click', (event) => {
+      count++;
+      if (count>3) count = 0;
+      path_to_geometry = geojson[count];
+      layerCount = 1;
+      idx = null;
+      addBoundary(path_to_geometry, layerCount, idx, retrievedMap)
+    });
+
+
+    console.log('map has been laoded so add geojson');
+
+/*     const retrievedMap = document.getElementById('map1')._olMap;
+    path_to_geometry ="/public/data/liskeard_overlaps.geojson";
+    layerCount = 1;
+    idx = null;
+    addBoundary(path_to_geometry, layerCount, idx, retrievedMap) */
+    
+    // keep this addBoundary within the main createMap function scope
+    async function addBoundary(path_to_geometry, layerCount, idx, map) {
+      // get the source to load the polygons into 
+      const source = map.getLayers().item(layerCount).getSource();
+      const view = map.getView();
+      const center = view.getCenter();
+      
+      source.clear();
+      // Function to load polygons from external file
+      try {
+        const response = await fetch(path_to_geometry);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        // add features from GeoJSON
+        let geojsonData = await response.json();
+        if (idx){
+          geojsonData = geojsonData.features[ idx ];
+        }
+        const features = new ol.format.GeoJSON().readFeatures(geojsonData);
+
+        source.addFeatures(features);
+
+      } catch (error) {
+        console.error('Error loading geojson:', error);
+      } finally {
+        console.log('finished loading geojson');
+        //loadingElement.classList.remove('show');
+      }
+    }
+    
+  })
+
+  
+</script>
+{% endblock %}
