@@ -117,7 +117,9 @@
   }
   @media (min-width: 48.0625em) {
   .govuk-template--rebranded .govuk-header__service-name {
-    margin: 10px 0 11px;
+    position: relative;
+    margin: 0px 0 11px;
+    bottom: 8px;
   }
 }
 
@@ -131,9 +133,9 @@
 
   <div id="navbar" class="govuk-grid-column-20-percent">
 
-<!-- <h2 class="govuk-heading-s">
-      Search by address or title number
-    </h2> -->
+<h2 class="govuk-heading-s">
+      Search by postcode or title number
+    </h2>
     <div class="search-bar govuk-!-padding-top-0 govuk-!-margin-bottom-2">
       <input class="govuk-input search-field map__search_term" id="search-field" name="search" type="text" value="">
       <div class="search-bar-input">
@@ -147,7 +149,7 @@
   <!-- MAP  -->
   <div class="max-width">  
     {{ hmlrSimpleMap({
-      alt: "Demo geojson from INSPIRE",
+      alt: "HMLR map component",
       caption: "",
       width: "100%",
       height: "100%",
@@ -158,24 +160,11 @@
           interactive: "true",
           style: {
             fill: {
-              color: "#4c2c9222"
+              color: "#4c2c9244"
             },
             stroke: {
               color: "#d4351c33",
               width: 1
-            }
-          }
-        },
-        {
-          path_to_geometry: "/public/data/layer2.geojson",
-          description:"Custom boundary",
-          style: {
-            fill: {
-              color: "#d4351c01"
-            },
-            stroke: {
-              color: "#d4351c",
-              width: 2
             }
           }
         }
@@ -204,8 +193,6 @@ function setElementHeight(selector, aspectRatio) {
   if (!el) return;
 
   function updateHeight() {
-    console.log('ht', window.innerHeight );
-    
     el.style.height = window.innerHeight - 80 + 'px';
   }
 
@@ -249,15 +236,17 @@ setElementHeight('#navbar');
   names[15068053] = "Meadow bounded by River Fowey, Golant Road, St. Winnow, Cornwall PL14 3NX";
   names[43768145] = "Rough ground adjacent to Hurlers Stone Circles car park, Minions, Cornwall PL14 5HD";
 
-
+  const geojson = [
+      "/public/data/leeds.geojson",
+      "/public/data/liverpool.geojson",
+      "/public/data/bristol.geojson"
+    ];
   
   document.addEventListener("DOMContentLoaded", (event) => {
-    console.log('page loaded');
-
     // add custom listener for map event: hmlrMapClickEvent
     document.addEventListener('hmlrMapClickEvent', (event) => {
       const message = event.detail.message;
-      console.log('Message:', message);
+      //console.log('Message:', message);
 
       const id = message.values_.INSPIREID;
       let address = names[id];
@@ -268,35 +257,26 @@ setElementHeight('#navbar');
     });
 
     var count = 0;
-    const geojson = [
-      "/public/data/liskeard_overlaps.geojson",
-      "/public/data/layer1.geojson",
-      "/public/data/layer2.geojson",
-      "/public/data/layer3.geojson",
-    ];
+    
     const retrievedMap = document.getElementById('map1')._olMap;
     document.getElementById('find-btn').addEventListener('click', (event) => {
-      count++;
-      if (count>3) count = 0;
+      if (count>=3) count = 0;
       path_to_geometry = geojson[count];
       layerCount = 1;
-      idx = null;
-      addBoundary(path_to_geometry, layerCount, idx, retrievedMap);
+      addBoundary(path_to_geometry, layerCount, retrievedMap);
       addHover(retrievedMap)
+      count++;
     });
 
 
-    console.log('map has been laoded so add geojson');
-
-    // keep this addBoundary within the main createMap function scope
-    async function addBoundary(path_to_geometry, layerCount, idx, map) {
+    async function addBoundary(path_to_geometry, layerCount, map) {
       // get the source to load the polygons into 
       const source = map.getLayers().item(layerCount).getSource();
       const view = map.getView();
       const center = view.getCenter();
       
       source.clear();
-      // Function to load polygons from external file
+      
       try {
         const response = await fetch(path_to_geometry);
 
@@ -305,9 +285,6 @@ setElementHeight('#navbar');
         }
         // add features from GeoJSON
         let geojsonData = await response.json();
-        if (idx){
-          geojsonData = geojsonData.features[ idx ];
-        }
         const features = new ol.format.GeoJSON().readFeatures(geojsonData);
 
         source.addFeatures(features);
@@ -315,9 +292,21 @@ setElementHeight('#navbar');
       } catch (error) {
         console.error('Error loading geojson:', error);
       } finally {
-        console.log('finished loading geojson');
-        //loadingElement.classList.remove('show');
+        //console.log('finished loading geojson');
       }
+
+      // fit view to loaded features
+      const extent = source.getExtent();
+      // center the view on the new geometry
+      if (extent && extent.some(coord => isFinite(coord))) {
+        map.getView().fit(extent, {
+          padding: [20, 20, 20, 20],
+          maxZoom: 18
+        });
+
+      }
+
+
     }
 
   let hoverStyle = new ol.style.Style({
