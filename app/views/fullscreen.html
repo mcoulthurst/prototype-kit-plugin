@@ -124,35 +124,20 @@
 </style>
 {% endblock %}
 
-{% block header %}
-<header class="govuk-header govuk-header--hmlr " role="banner" data-module="govuk-header">
-  <div class="govuk-header__container govuk-width-container">
-    <div class="govuk-header__content govuk-header__content--hmlr">
-      <a href="#" class="govuk-header__link govuk-header__service-name">
-        Search to title information
-      </a>
-    </div>
-  </div>
-</header>
-{% endblock %}
 
 
 {% block content %}
-
-
-
 <div id="container" class="govuk-grid-row">
-
 
   <div id="navbar" class="govuk-grid-column-20-percent">
 
-<!--     <h2 class="govuk-heading-s">
+<!-- <h2 class="govuk-heading-s">
       Search by address or title number
     </h2> -->
     <div class="search-bar govuk-!-padding-top-0 govuk-!-margin-bottom-2">
       <input class="govuk-input search-field map__search_term" id="search-field" name="search" type="text" value="">
       <div class="search-bar-input">
-        <button class="search-button map__search_button" type="button" name="search" id="find-btn" data-bind="click: flexSearchAddresses">
+        <button class="search-button map__search_button" type="button" name="search" id="find-btn" >
       </button></div>
     </div>
 
@@ -169,7 +154,6 @@
       layerControls: "true",
       layers:[
         {
-          
           description:"Registrations (INSPIRE)",
           interactive: "true",
           style: {
@@ -220,9 +204,9 @@ function setElementHeight(selector, aspectRatio) {
   if (!el) return;
 
   function updateHeight() {
-    console.log('ht', window.innerHeight - 175);
+    console.log('ht', window.innerHeight );
     
-    el.style.height = window.innerHeight - 145 + 'px';
+    el.style.height = window.innerHeight - 80 + 'px';
   }
 
   // Run on load and resize
@@ -297,18 +281,13 @@ setElementHeight('#navbar');
       path_to_geometry = geojson[count];
       layerCount = 1;
       idx = null;
-      addBoundary(path_to_geometry, layerCount, idx, retrievedMap)
+      addBoundary(path_to_geometry, layerCount, idx, retrievedMap);
+      addHover(retrievedMap)
     });
 
 
     console.log('map has been laoded so add geojson');
 
-/*     const retrievedMap = document.getElementById('map1')._olMap;
-    path_to_geometry ="/public/data/liskeard_overlaps.geojson";
-    layerCount = 1;
-    idx = null;
-    addBoundary(path_to_geometry, layerCount, idx, retrievedMap) */
-    
     // keep this addBoundary within the main createMap function scope
     async function addBoundary(path_to_geometry, layerCount, idx, map) {
       // get the source to load the polygons into 
@@ -340,6 +319,70 @@ setElementHeight('#navbar');
         //loadingElement.classList.remove('show');
       }
     }
+
+  let hoverStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+      color: 'rgba(0,48,120,0.3)'
+    }),
+    stroke: new ol.style.Stroke({
+      color: 'rgba(0,48,120,1)',
+      width: 2
+    })
+  })
+
+
+  function addHover(map) {
+    // Add interaction for hover effects
+    let hoveredFeature = null;
+    const mapElement = map.getTargetElement();
+
+    map.on('pointermove', function (evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+        return feature;
+      });
+
+      if (feature !== hoveredFeature) {
+        // Reset previous hovered feature to default style
+        if (hoveredFeature) {
+          hoveredFeature.setStyle(null); // Reset to layer default style
+        }
+
+        // Set new hovered feature
+        if (feature) {
+          feature.setStyle(hoverStyle);
+          mapElement.style.cursor = 'pointer';
+        } else {
+          mapElement.style.cursor = '';
+        }
+
+        hoveredFeature = feature;
+      }
+    });
+
+    // Add explicit mouse leave handling for map container
+    mapElement.addEventListener('mouseleave', function () {
+      if (hoveredFeature) {
+        hoveredFeature.setStyle(null); // Reset to layer default style
+        hoveredFeature = null;
+        mapElement.style.cursor = '';
+      }
+    });
+
+    // Add click handler for feature info
+    map.on('click', function (evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+        return feature;
+      });  
+
+      if (feature) {
+        // dispatch a custom event
+        const mapEvent = new CustomEvent('hmlrMapClickEvent', {
+          detail: { message: feature }
+        });
+        document.dispatchEvent(mapEvent);
+      }
+    });
+  }
     
   })
 
