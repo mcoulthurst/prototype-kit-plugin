@@ -8,69 +8,81 @@
 
 {% block beforeContent %}
 <style>
-
-  html, body {
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  html,
+  body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
   }
 
-  #navbar{
+  #navbar {
     display: inline;
     min-width: 180px;
-    max-width:300px;
+    max-width: 300px;
     overflow: hidden;
-    padding-right:10px;
+    padding-right: 10px;
   }
-  .hmlr-map-wrapper{
+
+  .hmlr-map-wrapper {
     background-color: aliceblue;
   }
+
   /* PAGE LAYOUT */
-  .govuk-grid-column-20-percent{
+  .govuk-grid-column-20-percent {
     width: 20%;
     box-sizing: border-box;
     padding: 0 15px;
     float: left;
   }
+
   .govuk-main-wrapper {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  .govuk-width-container{
-    max-width:98%;
-    width:98%;
+
+  .govuk-width-container {
+    max-width: 98%;
+    width: 98%;
   }
+
   /* HIDE GDS FOOTER AND DISPLAY IN NAVBAR */
   .govuk-footer {
-    display:none;
+    display: none;
   }
+
   /* HACK FOR REBRAND */
-  .govuk-service-navigation__service-name:not(:last-child){
+  .govuk-service-navigation__service-name:not(:last-child) {
     margin-right: 0 ! important;
   }
+
   .links {
-    min-width:280px;
+    min-width: 280px;
   }
+
   .logo {
-    min-width:260px;
+    min-width: 260px;
   }
-  .govuk-service-navigation__wrapper{
+
+  .govuk-service-navigation__wrapper {
     margin-left: auto;
   }
-  .govuk-summary-list__value{
+
+  .govuk-summary-list__value {
     height: 50px;
   }
+
   .ol-scale-line {
     top: 780px;
     left: 20px;
   }
-  .max-width{
+
+  .max-width {
     width: calc(100% - 300px);
     float: left;
   }
 
 
-  .hmlr-map-wrapper{
+  .hmlr-map-wrapper {
     height: 760px;
   }
 
@@ -80,6 +92,7 @@
     flex-direction: row;
     height: 38px;
   }
+
   .map__search_term {
     position: relative;
     z-index: 10;
@@ -90,6 +103,7 @@
     border-radius: 0;
     width: 85%;
   }
+
   .search-button {
     height: 38px;
     width: 38px;
@@ -99,10 +113,10 @@
     border-radius: 0;
   }
 
-  .layer_controls{
-    position:absolute;
+  .layer_controls {
+    position: absolute;
     bottom: -10px;
-    left:10px;
+    left: 10px;
     padding-right: 10px;
     min-width: 180px;
     max-width: 300px;
@@ -112,17 +126,18 @@
   .govuk-template--rebranded .govuk-header {
     background: #00703c;
   }
+
   .govuk-template--rebranded .govuk-header__link--homepage:not(:focus) {
     background-color: #00703c;
   }
-  @media (min-width: 48.0625em) {
-  .govuk-template--rebranded .govuk-header__service-name {
-    position: relative;
-    margin: 0px 0 11px;
-    bottom: 8px;
-  }
-}
 
+  @media (min-width: 48.0625em) {
+    .govuk-template--rebranded .govuk-header__service-name {
+      position: relative;
+      margin: 0px 0 11px;
+      bottom: 8px;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -133,55 +148,58 @@
 
   <div id="navbar" class="govuk-grid-column-20-percent">
 
-<h2 class="govuk-heading-s">
+    <h2 class="govuk-heading-s">
       Search by postcode or title number
     </h2>
     <div class="search-bar govuk-!-padding-top-0 govuk-!-margin-bottom-2">
-      <input class="govuk-input search-field map__search_term" id="search-field" name="search" type="text" value="">
+      <input class="govuk-input search-field map__search_term" id="search-field" name="search" type="text"
+        autocomplete="on">
       <div class="search-bar-input">
-        <button class="search-button map__search_button" type="button" name="search" id="find-btn" >
-      </button></div>
+        <button class="search-button map__search_button" type="button" name="search" id="find-btn">
+        </button>
+      </div>
     </div>
 
-    <p class="govuk-body-s" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p>
+    <p class="govuk-body-s" id="map_notes">Click the map to see information about a title<br />&nbsp;</p>
 
   </div>
   <!-- MAP  -->
-  <div class="max-width">  
+  <div class="max-width">
     {{ hmlrSimpleMap({
-      alt: "HMLR map component",
-      caption: "",
-      width: "100%",
-      height: "100%",
-      layerControls: "true",
-      layers:[
-        {
-          description:"Registrations (INSPIRE)",
-          interactive: "true",
-          style: {
-            fill: {
-              color: "#4c2c9244"
-            },
-            stroke: {
-              color: "#d4351c33",
-              width: 2     
-            }
-          }
-        },
-        {
-          style: {
-            fill: {
-              color: "#d5388033"
-            },
-            stroke: {
-              color: "#d53880",
-              width: 3,
-              lineDash: [10, 4]
-            }
-          }
-        }
-      ],
-      tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+    alt: "HMLR map component",
+    caption: "",
+    width: "100%",
+    height: "100%",
+    layerControls: "true",
+    layers:[
+    {
+    description:"Registrations (INSPIRE)",
+    interactive: "true",
+    style: {
+    fill: {
+    color: "#4c2c9244"
+    },
+    stroke: {
+    color: "#4c2c9299",
+    width: 1
+    }
+    }
+    },
+    {
+    description:"Postcode",
+    style: {
+    fill: {
+    color: "#d4351c33"
+    },
+    stroke: {
+    color: "#d4351c",
+    width: 3,
+    lineDash: [10, 6]
+    }
+    }
+    }
+    ],
+    tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
 
@@ -199,91 +217,175 @@
 {% block pageScripts %}
 <script>
 
-function setElementHeight(selector, aspectRatio) {
-  const el = document.querySelector(selector);
-  if (!el) return;
+  function setElementHeight(selector, aspectRatio) {
+    const el = document.querySelector(selector);
+    if (!el) return;
 
-  function updateHeight() {
-    el.style.height = window.innerHeight - 80 + 'px';
+    function updateHeight() {
+      el.style.height = window.innerHeight - 80 + 'px';
+    }
+
+    // Run on load and resize
+    window.addEventListener('load', updateHeight);
+    window.addEventListener('resize', updateHeight);
   }
 
-  // Run on load and resize
-  window.addEventListener('load', updateHeight);
-  window.addEventListener('resize', updateHeight);
-}
-
-setElementHeight('.hmlr-map-wrapper');
-setElementHeight('#navbar');
+  setElementHeight('.hmlr-map-wrapper');
+  setElementHeight('#navbar');
 
 
+  const addresses = [
+    [
+      "Moorland Road, Leeds, LS6 1AN",
+      "Cardigan Road, Leeds, LS6 1LJ",
+      "Hyde Park Road, Leeds, LS6 1AG",
+      "Brudenell Road, Leeds, LS6 1EG",
+      "St Michael's Lane, Leeds, LS6 3BR",
+      "Headingley Lane, Leeds, LS6 2AS",
+      "Ash Road, Leeds, LS6 3HD",
+      "Royal Park Avenue, Leeds, LS6 1EY",
+      "Burchett Place, Leeds, LS6 1LY",
+      "Moorland Avenue, Leeds, LS6 4BX"
+    ],
+    [
+      "Marmaduke Street, Liverpool, L7 1PB",
+      "Bentley Road, Liverpool, L8 0SY",
+      "Princes Avenue, Liverpool, L8 0TH",
+      "Upper Parliament Street, Liverpool, L8 7LA",
+      "Kingsley Road, Liverpool, L8 0SX",
+      "Sefton Park Road, Liverpool, L8 0SR",
+      "Croxteth Grove, Liverpool, L8 0SP",
+      "Princes Road, Liverpool, L8 1TH",
+      "Aigburth Drive, Liverpool, L17 4JZ",
+      "Catherine Street, Liverpool, L8 7NL"
+    ],
 
-  var names = {};
-  names[40902075] = "Field adjacent to Menheniot Railway Bridge, Station Road, Menheniot, Cornwall PL14 3RG";
-  names[61650471] = "Land rear of St. Martin's Church, Church Lane, Liskeard, Cornwall PL14 4EF";
-  names[41018856] = "Grazing field south of Doublebois Village Hall, Doublebois, Cornwall PL14 6HJ";
-  names[15061225] = "Vacant plot opposite Liskeard Community Hospital, Clemo Road, Liskeard, Cornwall PL14 3QS";
-  names[15062864] = "Agricultural land adjacent to Moorswater Industrial Estate, Liskeard, Cornwall PL14 4EL";
-  names[15068131] = "Paddock behind terraced cottages, Pengover Road, Liskeard, Cornwall PL14 4HN";
-  names[15068053] = "Scrubland north of Caradon Hill transmission mast, St. Cleer, Cornwall PL14 5DA";
-  names[57831470] = "Meadow bounded by West Looe River, Coldrenick, St. Keyne, Cornwall PL14 4RY";
-  names[15062718] = "Orchard land adjacent to Tremar Coombe, St. Cleer Road, Liskeard, Cornwall PL14 6RU";
-  names[53485444] = "Former miners' cottages site, Herodsfoot Common, Herodsfoot, Cornwall PL14 4QW";
-  names[52799872] = "Pasture field east of Duloe Stone Circle, Duloe, Cornwall PL14 4PP";
-  names[52796451] = "Vacant ground behind Liskeard Cattle Market, Pig Street, Liskeard, Cornwall PL14 3JE";
-  names[52775568] = "Rough grazing on Bodmin Moor boundary, Minions, Cornwall PL14 5LE";
-  names[54696254] = "Smallholding adjacent to Liskeard & Looe Union Canal, Moorswater, Cornwall PL14 4EH";
-  names[15065839] = "Building plot opposite Trevalga Farm, Trevalga Lane, St. Keyne, Cornwall PL14 4SA";
-  names[15068101] = "Moorland strip south of Cheesewring Quarry access road, Minions, Cornwall PL14 5LF";
-  names[60808505] = "Garden land behind Rose Cottage, Penlaurel Lane, Quethiock, Cornwall PL14 3RB";
-  names[15068528] = "Waste ground adjoining Liskeard Railway Station car park, Station Road, Liskeard, Cornwall PL14 4BQ";
-  names[15069921] = "Hillside pasture above Golitha Falls, Draynes Bridge, St. Neot, Cornwall PL14 6ND";
-  names[15070116] = "Derelict barn site, Trekeivesteps Farm access, Darite, Cornwall PL14 5HG";
-  names[15069958] = "Copse woodland east of Siblyback Lake, Commonmoor, Cornwall PL14 6HU";
-  names[15069669] = "Former chapel grounds, Pendrift Road, Trewidland, Cornwall PL14 3PE";
-  names[15069207] = "Sloping field north of Trethevy Quoit monument, Trethevy, Cornwall PL14 3QE";
-  names[15068131] = "Allotment strip behind Millpool Head, Looe Mills, Cornwall PL14 4QA";
-  names[15064943] = "Bracken land adjoining Carnglaze Caverns entrance, St. Neot, Cornwall PL14 6HQ";
-  names[15064943] = "Building plot near Warleggan Village Green, Warleggan, Cornwall PL30 4FA";
-  names[15068053] = "Meadow bounded by River Fowey, Golant Road, St. Winnow, Cornwall PL14 3NX";
-  names[43768145] = "Rough ground adjacent to Hurlers Stone Circles car park, Minions, Cornwall PL14 5HD";
+    [
+      "Ashton Drive, Bristol, BS3 2PT",
+      "Duckmoor Road, Bristol, BS3 2BY",
+      "Greville Road, Bristol, BS3 2LB",
+      "Ashton Gate Road, Bristol, BS3 2EJ",
+      "North Street, Bristol, BS3 1JE",
+      "Ashton Road, Bristol, BS3 2EA",
+      "Baynton Road, Bristol, BS3 2JX",
+      "Coronation Road, Bristol, BS3 1RU",
+      "Frayne Road, Bristol, BS3 2JT",
+      "Clanage Road, Bristol, BS3 2JU"
+    ]
+  ];
 
   const geojson = [
-      "/public/data/leeds.geojson",
-      "/public/data/liverpool.geojson",
-      "/public/data/bristol.geojson"
-    ];
+    "/public/data/leeds.geojson",
+    "/public/data/liverpool.geojson",
+    "/public/data/bristol.geojson"
+  ];
 
   const postcodes = [
-      "/public/data/LS6_1AL.geojson",
-      "/public/data/L7_1PB.geojson",
-      "/public/data/BS3_2PT.geojson"
-    ];
-  
+    "/public/data/LS6_1AL.geojson",
+    "/public/data/L7_1PB.geojson",
+    "/public/data/BS3_2PT.geojson"
+  ];
+
+
+  async function getPostcodePolygon(postcode) {
+    const overpassUrl = "https://overpass-api.de/api/interpreter";
+
+    // Overpass query: Find relations with postal_code tag
+    const query = `
+        [out:json][timeout:25];
+        area["ISO3166-1"="GB"][admin_level=2];
+        (
+          relation["postal_code"="${postcode}"]["boundary"="postal_code"];
+          way["postal_code"="${postcode}"]["boundary"="postal_code"];
+        );
+        out geom;
+      `;
+
+    try {
+      const response = await fetch(overpassUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: query
+      });
+
+      if (!response.ok) {
+        throw new Error(`Overpass API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+
+      if (!data.elements || data.elements.length === 0) {
+        console.log("No polygon found for this postcode.");
+        return null;
+      }
+
+      // Convert to GeoJSON
+      const features = data.elements.map(element => {
+        if (element.geometry) {
+          const coords = element.geometry.map(pt => [pt.lon, pt.lat]);
+          return {
+            type: "Feature",
+            properties: { id: element.id, tags: element.tags },
+            geometry: {
+              type: "Polygon",
+              coordinates: [coords]
+            }
+          };
+        }
+      }).filter(Boolean);
+
+      return {
+        type: "FeatureCollection",
+        features: features
+      };
+
+    } catch (error) {
+      console.error("Error fetching postcode polygon:", error);
+      return null;
+    }
+  }
+
+
+
+
   document.addEventListener("DOMContentLoaded", (event) => {
     // add custom listener for map event: hmlrMapClickEvent
     document.addEventListener('hmlrMapClickEvent', (event) => {
       const message = event.detail.message;
       //console.log('Message:', message);
 
-      const id = message.values_.INSPIREID;
-      let address = names[id];
-      if(address === undefined){
-        address = "No property of measurable worth" +"<br/>&nbsp;";
+      //const id = message.values_.INSPIREID;
+      const id = Math.floor(Math.random() * 10);
+      let address = addresses[count][id];
+      if (address === undefined) {
+        address = "No property of measurable worth" + "<br/>&nbsp;";
       }
-      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + id +": " + address ;
+      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + id + ": " + address;
     });
 
     var count = 0;
-    
+
     const retrievedMap = document.getElementById('map1')._olMap;
+    const searchField = document.getElementById('search-field');
     document.getElementById('find-btn').addEventListener('click', (event) => {
-      if (count>=3) count = 0;
+      document.getElementById("map_notes").innerHTML = "";
+      count++;
+      if (count >= 3) count = 0;
+      
       path_to_geometry = geojson[count];
       postcode = postcodes[count];
       addBoundary(path_to_geometry, 1, retrievedMap);
       addBoundary(postcode, 2, retrievedMap);
       addHover(retrievedMap)
-      count++;
+
+      //console.log(searchField.value);
+
+      // Example usage:
+      /* getPostcodePolygon(searchField.value).then(geojson => {
+        console.log(JSON.stringify(geojson, null, 2));
+      });  */
     });
 
 
@@ -292,9 +394,9 @@ setElementHeight('#navbar');
       const source = map.getLayers().item(layerCount).getSource();
       const view = map.getView();
       const center = view.getCenter();
-      
+
       source.clear();
-      
+
       try {
         const response = await fetch(path_to_geometry);
 
@@ -327,72 +429,72 @@ setElementHeight('#navbar');
 
     }
 
-  let hoverStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-      color: 'rgba(0,48,120,0.3)'
-    }),
-    stroke: new ol.style.Stroke({
-      color: 'rgba(0,48,120,1)',
-      width: 2
+    let hoverStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: 'rgba(0,48,120,0.3)'
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'rgba(0,48,120,1)',
+        width: 2
+      })
     })
-  })
 
 
-  function addHover(map) {
-    // Add interaction for hover effects
-    let hoveredFeature = null;
-    const mapElement = map.getTargetElement();
+    function addHover(map) {
+      // Add interaction for hover effects
+      let hoveredFeature = null;
+      const mapElement = map.getTargetElement();
 
-    map.on('pointermove', function (evt) {
-      const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-        return feature;
+      map.on('pointermove', function (evt) {
+        const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+          return feature;
+        });
+
+        if (feature !== hoveredFeature) {
+          // Reset previous hovered feature to default style
+          if (hoveredFeature) {
+            hoveredFeature.setStyle(null); // Reset to layer default style
+          }
+
+          // Set new hovered feature
+          if (feature) {
+            feature.setStyle(hoverStyle);
+            mapElement.style.cursor = 'pointer';
+          } else {
+            mapElement.style.cursor = '';
+          }
+
+          hoveredFeature = feature;
+        }
       });
 
-      if (feature !== hoveredFeature) {
-        // Reset previous hovered feature to default style
+      // Add explicit mouse leave handling for map container
+      mapElement.addEventListener('mouseleave', function () {
         if (hoveredFeature) {
           hoveredFeature.setStyle(null); // Reset to layer default style
-        }
-
-        // Set new hovered feature
-        if (feature) {
-          feature.setStyle(hoverStyle);
-          mapElement.style.cursor = 'pointer';
-        } else {
+          hoveredFeature = null;
           mapElement.style.cursor = '';
         }
+      });
 
-        hoveredFeature = feature;
-      }
-    });
-
-    // Add explicit mouse leave handling for map container
-    mapElement.addEventListener('mouseleave', function () {
-      if (hoveredFeature) {
-        hoveredFeature.setStyle(null); // Reset to layer default style
-        hoveredFeature = null;
-        mapElement.style.cursor = '';
-      }
-    });
-
-    // Add click handler for feature info
-    map.on('click', function (evt) {
-      const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-        return feature;
-      });  
-
-      if (feature) {
-        // dispatch a custom event
-        const mapEvent = new CustomEvent('hmlrMapClickEvent', {
-          detail: { message: feature }
+      // Add click handler for feature info
+      map.on('click', function (evt) {
+        const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+          return feature;
         });
-        document.dispatchEvent(mapEvent);
-      }
-    });
-  }
-    
+
+        if (feature) {
+          // dispatch a custom event
+          const mapEvent = new CustomEvent('hmlrMapClickEvent', {
+            detail: { message: feature }
+          });
+          document.dispatchEvent(mapEvent);
+        }
+      });
+    }
+
   })
 
-  
+
 </script>
 {% endblock %}
