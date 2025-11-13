@@ -164,12 +164,23 @@
             },
             stroke: {
               color: "#d4351c33",
-              width: 1
+              width: 2     
+            }
+          }
+        },
+        {
+          style: {
+            fill: {
+              color: "#d5388033"
+            },
+            stroke: {
+              color: "#d53880",
+              width: 3,
+              lineDash: [10, 4]
             }
           }
         }
       ],
-      zoom: 14.5,
       tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
@@ -241,6 +252,12 @@ setElementHeight('#navbar');
       "/public/data/liverpool.geojson",
       "/public/data/bristol.geojson"
     ];
+
+  const postcodes = [
+      "/public/data/LS6_1AL.geojson",
+      "/public/data/L7_1PB.geojson",
+      "/public/data/BS3_2PT.geojson"
+    ];
   
   document.addEventListener("DOMContentLoaded", (event) => {
     // add custom listener for map event: hmlrMapClickEvent
@@ -262,8 +279,9 @@ setElementHeight('#navbar');
     document.getElementById('find-btn').addEventListener('click', (event) => {
       if (count>=3) count = 0;
       path_to_geometry = geojson[count];
-      layerCount = 1;
-      addBoundary(path_to_geometry, layerCount, retrievedMap);
+      postcode = postcodes[count];
+      addBoundary(path_to_geometry, 1, retrievedMap);
+      addBoundary(postcode, 2, retrievedMap);
       addHover(retrievedMap)
       count++;
     });
