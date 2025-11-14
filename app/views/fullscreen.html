@@ -27,7 +27,6 @@
     background-color: aliceblue;
   }
 
-  /* PAGE LAYOUT */
   .govuk-grid-column-20-percent {
     width: 20%;
     box-sizing: border-box;
@@ -45,12 +44,10 @@
     width: 98%;
   }
 
-  /* HIDE GDS FOOTER AND DISPLAY IN NAVBAR */
   .govuk-footer {
     display: none;
   }
 
-  /* HACK FOR REBRAND */
   .govuk-service-navigation__service-name:not(:last-child) {
     margin-right: 0 ! important;
   }
@@ -81,11 +78,9 @@
     float: left;
   }
 
-
   .hmlr-map-wrapper {
     height: 760px;
   }
-
 
   .search-bar {
     display: flex;
@@ -123,6 +118,9 @@
     width: 100%;
   }
 
+  .govuk-template--rebranded {
+    background: #fff;
+  }
   .govuk-template--rebranded .govuk-header {
     background: #00703c;
   }
@@ -160,46 +158,47 @@
       </div>
     </div>
 
+
     <p class="govuk-body-s" id="map_notes">Click the map to see information about a title<br />&nbsp;</p>
 
   </div>
-  <!-- MAP  -->
+
   <div class="max-width">
     {{ hmlrSimpleMap({
-    alt: "HMLR map component",
-    caption: "",
-    width: "100%",
-    height: "100%",
-    layerControls: "true",
-    layers:[
-    {
-    description:"Registrations (INSPIRE)",
-    interactive: "true",
-    style: {
-    fill: {
-    color: "#4c2c9244"
-    },
-    stroke: {
-    color: "#4c2c9299",
-    width: 1
-    }
-    }
-    },
-    {
-    description:"Postcode",
-    style: {
-    fill: {
-    color: "#d4351c33"
-    },
-    stroke: {
-    color: "#d4351c",
-    width: 3,
-    lineDash: [10, 6]
-    }
-    }
-    }
-    ],
-    tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+      alt: "HMLR map component",
+      caption: "© Crown copyright and database rights 2025 Ordnance Survey AC0000851063. Use of this data is subject to Ordnance Survey",
+      width: "100%",
+      height: "100%",
+      layerControls: "true",
+      layers:[
+        {
+          description:"Registrations (INSPIRE)",
+          interactive: "true",
+          style: {
+            fill: {
+              color: "#4c2c9244"
+            },
+            stroke: {
+              color: "#4c2c9299",
+              width: 1
+            }
+          }
+        },
+          {
+          description:"Postcode",
+          style: {
+            fill: {
+              color: "#d4351c33"
+            },
+            stroke: {
+              color: "#d4351c",
+              width: 3,
+              lineDash: [10, 6]
+            }
+          }
+        }
+      ],
+      tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
 
@@ -222,7 +221,7 @@
     if (!el) return;
 
     function updateHeight() {
-      el.style.height = window.innerHeight - 80 + 'px';
+      el.style.height = window.innerHeight - 120 + 'px';
     }
 
     // Run on load and resize
@@ -348,24 +347,21 @@
   }
 
 
-
-
   document.addEventListener("DOMContentLoaded", (event) => {
+
     // add custom listener for map event: hmlrMapClickEvent
     document.addEventListener('hmlrMapClickEvent', (event) => {
       const message = event.detail.message;
-      //console.log('Message:', message);
-
-      //const id = message.values_.INSPIREID;
+      const INSPIREID = message.values_.INSPIREID;
       const id = Math.floor(Math.random() * 10);
       let address = addresses[count][id];
       if (address === undefined) {
         address = "No property of measurable worth" + "<br/>&nbsp;";
       }
-      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + id + ": " + address;
+      document.getElementById("map_notes").innerHTML = "INSPIRE ID " + INSPIREID + ":<br/> " + address;
     });
 
-    var count = 0;
+    var count = -1;
 
     const retrievedMap = document.getElementById('map1')._olMap;
     const searchField = document.getElementById('search-field');
