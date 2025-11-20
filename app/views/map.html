@@ -18,7 +18,6 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 .hmlr-map{
   position: relative;
   width: 100%;
-  left: 320px;
 }
 .map-controls{
   font-size: xx-small;
@@ -48,52 +47,13 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
       layerControls: "true",
       layers:[
         {
-          path_to_geometry: "/public/data/liskeard_overlaps.geojson",
+          path_to_geometry: "/public/data/AI.geojson",
           description:"INSPIRE data",
           interactive: "true",
-          style: {
-            fill: {
-              color: "#4c2c9222"
-            },
-            stroke: {
-              color: "#4c2c9211",
-              width: 0.5
-            }
-          }
-        },
-        {
-          path_to_geometry: "/public/data/layer1.geojson",
+          style:"RED DASH"
 
-          style: {
-            fill: {
-              color: "#d4351c01"
-            },
-            stroke: {
-              color: "#d4351c",
-              width: 2
-            }
-          }
-        },
-        {
-          path_to_geometry: "/public/data/layer2.geojson",
-          description:"Custom description",
-          style: {
-            fill: {
-              color: "#00703c11"
-            },
-            stroke: {
-              color: "#00703c",
-              width: 2
-            }
-          }
-        },
-        {
-          path_to_geometry: "/public/data/layer3.geojson",
-          description:"Blue boundary",
-          style: "BLUE"
         }
       ],
-      zoom: 14.5,
       tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
     }) }}
 
