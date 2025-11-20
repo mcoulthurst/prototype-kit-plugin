@@ -1,0 +1,246 @@
+{% extends "layouts/mainWithInter.html" %}
+{% set serviceName= "HMLR draw controls test" %}
+{% set pageName="Draw controls test" %}
+
+{% set bodyClasses = "full-width" %}
+{% set containerClasses = "full-width" %}
+
+
+{% block beforeContent %}
+<style>
+  html,
+  body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
+
+  .navbar {
+    display: inline;
+    min-width: 180px;
+    max-width: 300px;
+    overflow: hidden;
+    padding-right: 10px;
+  }
+
+  .hmlr-map-wrapper {
+    background-color: aliceblue;
+  }
+
+  .govuk-grid-column-20-percent {
+    width: 20%;
+    box-sizing: border-box;
+    padding: 0 15px;
+    float: left;
+  }
+
+  .govuk-main-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .govuk-width-container {
+    max-width: 98%;
+    width: 98%;
+  }
+
+  .govuk-footer {
+    display: none;
+  }
+
+  .govuk-service-navigation__service-name:not(:last-child) {
+    margin-right: 0 ! important;
+  }
+
+  .links {
+    min-width: 280px;
+  }
+
+  .logo {
+    min-width: 260px;
+  }
+
+  .govuk-service-navigation__wrapper {
+    margin-left: auto;
+  }
+
+  .govuk-summary-list__value {
+    height: 50px;
+  }
+
+  .ol-scale-line {
+    top: 780px;
+    left: 20px;
+  }
+
+  .max-width {
+    width: calc(100% - 300px);
+    float: left;
+  }
+
+  .hmlr-map-wrapper {
+    height: 760px;
+  }
+
+  .search-bar {
+    display: flex;
+    flex-direction: row;
+    height: 38px;
+  }
+
+  .map__search_term {
+    position: relative;
+    z-index: 10;
+    height: 38px;
+    margin: 0;
+    padding: 1px;
+    border: 2px solid #0b0c0c;
+    border-radius: 0;
+    width: 85%;
+  }
+
+  .search-button {
+    height: 38px;
+    width: 38px;
+    cursor: pointer;
+    background: #0B0C0C url("/public/images/search-button.png") no-repeat 2px 50%;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .layer_controls {
+    position: absolute;
+    bottom: -10px;
+    left: 10px;
+    padding-right: 10px;
+    min-width: 180px;
+    max-width: 300px;
+    width: 100%;
+  }
+
+  .govuk-template--rebranded {
+    background: #fff;
+  }
+  .govuk-template--rebranded .govuk-header {
+    background: #00703c;
+  }
+
+  .govuk-template--rebranded .govuk-header__link--homepage:not(:focus) {
+    background-color: #00703c;
+  }
+
+  @media (min-width: 48.0625em) {
+    .govuk-template--rebranded .govuk-header__service-name {
+      position: relative;
+      margin: 0px 0 11px;
+      bottom: 8px;
+    }
+  }
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+<div id="container" class="govuk-grid-row">
+
+  <div class="navbar govuk-grid-column-20-percent">
+
+    <h2 class="govuk-heading-s">
+      Search by postcode or title number
+    </h2>
+
+    {% include "/includes/controls.html" %}
+  </div>
+
+  <div class="max-width">
+    {{ hmlrSimpleMap({
+      alt: "HMLR map component",
+      caption: "© Crown copyright and database rights 2025 Ordnance Survey AC0000851063. Use of this data is subject to Ordnance Survey",
+      width: "100%",
+      height: "100%",
+      layerControls: "false",
+      layers:[
+        {
+          description:"Registrations (INSPIRE)",
+          interactive: "true",
+          style: {
+            fill: {
+              color: "#4c2c9244"
+            },
+            stroke: {
+              color: "#4c2c9299",
+              width: 1
+            }
+          }
+        },
+          {
+          description:"Postcode",
+          style: {
+            fill: {
+              color: "#d4351c33"
+            },
+            stroke: {
+              color: "#d4351c",
+              width: 3,
+              lineDash: [10, 6]
+            }
+          }
+        }
+      ],
+      tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+    }) }}
+
+
+  </div>
+
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block pageScripts %}
+<script>
+
+  function setElementHeight(selector, aspectRatio) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+
+    function updateHeight() {
+      el.style.height = window.innerHeight - 120 + 'px';
+    }
+
+    // Run on load and resize
+    window.addEventListener('load', updateHeight);
+    window.addEventListener('resize', updateHeight);
+  }
+
+  setElementHeight('.hmlr-map-wrapper');
+  setElementHeight('.navbar');
+
+
+  const geojson = [
+    "/public/data/leeds.geojson",
+    "/public/data/liverpool.geojson",
+    "/public/data/bristol.geojson"
+  ];
+
+  const postcodes = [
+    "/public/data/LS6_1AL.geojson",
+    "/public/data/L7_1PB.geojson",
+    "/public/data/BS3_2PT.geojson"
+  ];
+
+
+  document.addEventListener("DOMContentLoaded", (event) => {
+
+
+  })
+
+
+</script>
+{% endblock %}
