@@ -159,6 +159,7 @@
     </div>
 
 
+    <p class="govuk-body-s" id="">[Search L7 1PB, LS6 1AN, BS3 2PT]<br />&nbsp;</p>
     <p class="govuk-body-s" id="map_notes">Click the map to see information about a title<br />&nbsp;</p>
 
   </div>
@@ -367,11 +368,26 @@
     const searchField = document.getElementById('search-field');
     document.getElementById('find-btn').addEventListener('click', (event) => {
       document.getElementById("map_notes").innerHTML = "";
-      count++;
-      if (count >= 3) count = 0;
-      
-      path_to_geometry = geojson[count];
-      postcode = postcodes[count];
+      const searchString = searchField.value.replace(/\s/g, "");
+      if(searchString == "LS61AN" ){
+        path_to_geometry = geojson[0];
+        postcode = postcodes[0];
+      }else if(searchString == "L71PB" ){
+        path_to_geometry = geojson[1];
+        postcode = postcodes[1];
+      }else if(searchString == "BS32PT" ){
+        path_to_geometry = geojson[2];
+        postcode = postcodes[2];
+      }else{
+
+        count++;
+        if (count >= 3) count = 0;
+        
+        path_to_geometry = geojson[count];
+        postcode = postcodes[count];
+      }
+
+
       addBoundary(path_to_geometry, 1, retrievedMap);
       addBoundary(postcode, 2, retrievedMap);
       addHover(retrievedMap)
