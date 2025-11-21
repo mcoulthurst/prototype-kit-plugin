@@ -39,17 +39,17 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 
     <h1 class="govuk-heading-xl">Map Component Test</h1>
 
-    <p class="govuk-body" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p>
+    <!-- <p class="govuk-body" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p> -->
             
     {{ hmlrSimpleMap({
       alt: "Demo geojson from INSPIRE",
-      caption: "Example of layered boundaries with controls and custom map tiles",
+      caption: "Imported geometry from MHCLG Extract",
       layer_controls: "true",
       layers:[
         {
           path_to_geometry: "/public/data/AI.geojson",
           description:"INSPIRE data",
-          interactive: "true",
+          interactive: "false",
           style:"RED DASH"
 
         }
@@ -101,7 +101,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
     console.log('page loaded');
 
     // add custom listener for map event: hmlrMapClickEvent
-    document.addEventListener('hmlrMapClickEvent', (event) => {
+    /* document.addEventListener('hmlrMapClickEvent', (event) => {
       const message = event.detail.message;
       console.log('Message:', message);
 
@@ -111,7 +111,7 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
         address = "No property of measurable worth" +"<br/>&nbsp;";
       }
       document.getElementById("map_notes").innerHTML = "INSPIRE ID " + id +": " + address ;
-    });
+    }); */
 
   })
 </script>
