@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% from "hmlrSimpleMap.njk" import hmlrSimpleMap %}
+{% from "hmlrMap.njk" import hmlrMap %}
 
 {% block pageTitle %}
 Map Component – {{ serviceName }} – GOV.UK Prototype Kit
@@ -41,10 +41,10 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 
     <!-- <p class="govuk-body" id="map_notes">Click the map to see information about a title<br/>&nbsp;</p> -->
             
-    {{ hmlrSimpleMap({
-      alt: "Demo geojson from INSPIRE",
+    {{ hmlrMap({
+      alt: "Imported geometry from MHCLG Extract",
       caption: "Imported geometry from MHCLG Extract",
-      layer_controls: "true",
+      layer_controls: "false",
       layers:[
         {
           path_to_geometry: "/public/data/AI.geojson",
