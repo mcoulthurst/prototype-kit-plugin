@@ -47,11 +47,16 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
       layer_controls: "false",
       layers:[
         {
-          path_to_geometry: "/public/data/AI.geojson",
+          path_to_geometry: "/public/data/liskeard_one.geojson",
           description:"INSPIRE data",
           interactive: "false",
-          style:"RED DASH"
-
+          style:" DASH"
+        },
+        {
+          path_to_geometry: "/public/data/liskeard_part.geojson",
+          description:"INSPIRE data",
+          interactive: "false",
+          style:" hatched"
         }
       ],
       tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
