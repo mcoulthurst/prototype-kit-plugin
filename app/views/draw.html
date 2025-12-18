@@ -222,6 +222,36 @@
   setElementHeight('.hmlr-map-wrapper');
   setElementHeight('.navbar');
 
+  function exportGeometries() {
+    console.log('export');
+    const data = getGeometries();
+    console.log(data);
+
+    // Create timestamp in format: YYYY-MM-DD_HH-MM-SS
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/:/g, '-').replace(/\..+/, '').replace('T', '_');
+  
+    const filename = timestamp +'.json';
+    // Create a Blob from the JSON string
+    const blob = new Blob([data], { type: 'application/json' });
+    
+    // Create a temporary URL for the Blob
+    const url = URL.createObjectURL(blob);
+  
+    // Create a temporary anchor element and trigger download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+  
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+  }
+
+
   function initializeDrawTools(map) {
     document
       .querySelectorAll(`input[type="radio"].${CONFIG.SELECTORS.RADIO_CLASS}`)
@@ -229,11 +259,16 @@
         radio.addEventListener('change', (e) => setDrawMode(map, e.target.value));
       });
 
+      setDrawMode(map, 'draw-area')
+
     const clearBtn = document.getElementById('clearAllBtn');
     if (clearBtn) clearBtn.addEventListener('click', clearAllDrawings);
 
     const undoBtn = document.getElementById('undoBtn');
     if (undoBtn) undoBtn.addEventListener('click', undo);
+
+    const exportBtn = document.getElementById('exportBtn');
+    if (exportBtn) exportBtn.addEventListener('click', exportGeometries);
   }
 
   document.addEventListener("DOMContentLoaded", (event) => {
