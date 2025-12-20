@@ -200,6 +200,20 @@ Map Component – {{ serviceName }} – GOV.UK Prototype Kit
       ]
     }) }}
 
+    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+    {{ hmlrMap({
+      alt: "Demo geojson from INSPIRE",
+      caption: "Example of hatched canvas shading of layers",
+      layers:[
+        {
+          path_to_geometry: "/public/data/origin.geojson",
+          style: "green"
+        }
+       
+      ]
+    }) }}
+
 
 
 
