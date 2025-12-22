@@ -2,6 +2,13 @@
 
 {% from "hmlrMap.njk" import hmlrMap %}
 
+{% block bodyStart %}
+<!--   from the page   -->
+{{ super() }} {# Keep parent's head content #}
+<meta property="og:image" content="/public/images/govuk-opengraph-image.png" />
+{% endblock %}
+
+
 {% block pageTitle %}
 Map Component – {{ serviceName }} – GOV.UK Prototype Kit
 {% endblock %}

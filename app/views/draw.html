@@ -1,10 +1,16 @@
 {% extends "layouts/mainWithInter.html" %}
-{% set serviceName= "HMLR Export geospatial data" %}
+{% set serviceName= "HMLR [Export geospatial data]" %}
 {% set pageName="Draw controls test" %}
 
 {% set bodyClasses = "full-width" %}
 {% set containerClasses = "full-width" %}
 
+
+{% block bodyStart %}
+<!--   from the page   -->
+{{ super() }} {# Keep parent's head content #}
+<meta property="og:image" content="/public/images/govuk-opengraph-image.png" />
+{% endblock %}
 
 {% block beforeContent %}
 <style>
@@ -136,6 +142,11 @@
       bottom: 8px;
     }
   }
+
+.attribution{
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
 </style>
 {% endblock %}
 
@@ -170,7 +181,7 @@
       width: "100%",
       height: "100%",
       layer_controls: "false",
-      coords: "248990,59160",
+      coords: "249050,59150",
       zoom: 18,
       layers:[
         {
