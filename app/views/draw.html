@@ -1,5 +1,5 @@
 {% extends "layouts/mainWithInter.html" %}
-{% set serviceName= "HMLR draw controls test" %}
+{% set serviceName= "HMLR Export geospatial data" %}
 {% set pageName="Draw controls test" %}
 
 {% set bodyClasses = "full-width" %}
@@ -145,9 +145,19 @@
 <div id="container" class="govuk-grid-row">
 
   <div class="navbar govuk-grid-column-20-percent">
-
-    <h2 class="govuk-heading-m">
-      Draw and export BNG polygons
+    <h2 class="govuk-heading-s">
+      Search by postcode or title number
+    </h2>
+    <div class="search-bar govuk-!-padding-top-0 govuk-!-margin-bottom-2">
+      <input class="govuk-input search-field map__search_term" id="search-field" name="search" type="text"
+        autocomplete="on">
+      <div class="search-bar-input">
+        <button class="search-button map__search_button" type="button" name="search" id="find-btn">
+        </button>
+      </div>
+    </div>
+    <h2 class="govuk-heading-s govuk-!-padding-top-3">
+      Draw boundary
     </h2>
 
     {% include "/includes/controls.html" %}
@@ -160,7 +170,7 @@
       width: "100%",
       height: "100%",
       layer_controls: "false",
-      coords: "248993,59112",
+      coords: "248990,59160",
       zoom: 18,
       layers:[
         {
@@ -190,9 +200,8 @@
           }
         }
       ],
-      tile_url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+      tile_url: 'https://api.os.uk/maps/raster/v1/zxy/Outdoor_27700/{z}/{x}/{y}.png?key=' + data.PROJECT_API_KEY
     }) }}
-
 
   </div>
 
@@ -206,14 +215,19 @@
 
 
 {% block pageScripts %}
+<script src='/public/javascripts/postcode.js'></script>
+<script src='/public/javascripts/postcode_lookup.js'></script>
 <script>
 
+  const POSTCODE_URL= "https://mapit.mysociety.org/postcode/"
+  var retrievedMap;
+  
   function setElementHeight(selector, aspectRatio) {
     const el = document.querySelector(selector);
     if (!el) return;
 
     function updateHeight() {
-      el.style.height = window.innerHeight - 120 + 'px';
+      el.style.height = window.innerHeight - 106 + 'px';
     }
 
     // Run on load and resize
@@ -271,13 +285,36 @@
 
     const exportBtn = document.getElementById('exportBtn');
     if (exportBtn) exportBtn.addEventListener('click', exportGeometries);
+
+    const searchField = document.getElementById('search-field');
+    document.getElementById('find-btn').addEventListener('click', (event) => {
+      const searchString = searchField.value.replace(/\s/g, "");
+      console.log(searchString);
+      searchAndZoom(searchString);
+    });
+
   }
 
   document.addEventListener("DOMContentLoaded", (event) => {
-    const retrievedMap = document.getElementById('map1')._olMap;
+    retrievedMap = document.getElementById('map1')._olMap;
     initializeDrawTools(retrievedMap);
   })
 
+  function setCenter(coords) {
+    retrievedMap.getView().setCenter(coords);
+  }
+
+
+  function searchAndZoom(searchString) {
+    lookupPostcode(searchString)
+      .then(data => {
+        console.log("Postcode data received:", data);
+        setCenter(data);
+      })
+      .catch(error => {
+        console.error("Error looking up postcode:", error);
+      });
+  }
 
 </script>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "layouts/mainWithInter.html" %}
 {% set serviceName= "HMLR title search" %}
-{% set pageName="Fullscreen test" %}
+{% set pageName="Title search" %}
 
 {% set bodyClasses = "full-width" %}
 {% set containerClasses = "full-width" %}
@@ -216,6 +216,7 @@
 
 {% block pageScripts %}
 <script>
+  let count = 0;
 
   function setElementHeight(selector, aspectRatio) {
     const el = document.querySelector(selector);
@@ -349,12 +350,15 @@
 
 
   document.addEventListener("DOMContentLoaded", (event) => {
+    const retrievedMap = document.getElementById('map1')._olMap;
+    const searchField = document.getElementById('search-field');
 
     // add custom listener for map event: hmlrMapClickEvent
     document.addEventListener('hmlrMapClickEvent', (event) => {
       const message = event.detail.message;
       const INSPIREID = message.values_.INSPIREID;
       const id = Math.floor(Math.random() * 10);
+
       let address = addresses[count][id];
       if (address === undefined) {
         address = "No property of measurable worth" + "<br/>&nbsp;";
@@ -362,37 +366,27 @@
       document.getElementById("map_notes").innerHTML = "INSPIRE ID " + INSPIREID + ":<br/> " + address;
     });
 
-    var count = -1;
-
-    const retrievedMap = document.getElementById('map1')._olMap;
-    const searchField = document.getElementById('search-field');
     document.getElementById('find-btn').addEventListener('click', (event) => {
       document.getElementById("map_notes").innerHTML = "";
       const searchString = searchField.value.replace(/\s/g, "");
       if(searchString == "LS61AN" ){
-        path_to_geometry = geojson[0];
-        postcode = postcodes[0];
+        count = 0;
       }else if(searchString == "L71PB" ){
-        path_to_geometry = geojson[1];
-        postcode = postcodes[1];
+        count = 1;
       }else if(searchString == "BS32PT" ){
-        path_to_geometry = geojson[2];
-        postcode = postcodes[2];
+        count = 2;
       }else{
-
         count++;
         if (count >= 3) count = 0;
         
-        path_to_geometry = geojson[count];
-        postcode = postcodes[count];
       }
 
+      path_to_geometry = geojson[count];
+      postcode = postcodes[count];
 
       addBoundary(path_to_geometry, 1, retrievedMap);
       addBoundary(postcode, 2, retrievedMap);
       addHover(retrievedMap)
-
-      //console.log(searchField.value);
 
       // Example usage:
       /* getPostcodePolygon(searchField.value).then(geojson => {
@@ -435,10 +429,7 @@
           padding: [20, 20, 20, 20],
           maxZoom: 18
         });
-
       }
-
-
     }
 
     let hoverStyle = new ol.style.Style({
@@ -450,7 +441,6 @@
         width: 2
       })
     })
-
 
     function addHover(map) {
       // Add interaction for hover effects

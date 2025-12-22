@@ -1,5 +1,5 @@
 module.exports = {
 
-  // Insert values here
-
+  PROJECT_API_KEY: process.env.PROJECT_API_KEY
+  
 }
