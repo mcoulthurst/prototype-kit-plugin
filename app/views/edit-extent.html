@@ -1,0 +1,100 @@
+{% extends "layouts/main.html" %}
+{% set pageName = "Draw territorial extent" %}
+
+{% from "hmlrMap.njk" import hmlrMap %}
+
+{% block beforeContent %}
+{#% include "includes/language-switcher-2025.html" %#}
+{% endblock %}
+
+
+{% if data.count %}
+{% set count = data.count | int %}
+{% else %}
+{% set count = 1 %}
+{% endif %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+          {{ pageName }}
+      </h1>
+    <div class="govuk-inset-text">
+      Some sort of notice: less about the accuracy but more the coverage of the extent
+    </div>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-third" style="width:250px">
+    <h2 class="govuk-heading-m">
+      Map options
+    </h2>
+
+    {% include "./includes/controls_simple.html" %}
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+  {{ hmlrMap({
+      alt: "Map to draw territorial extent",
+      caption: "© Crown copyright and database rights 2025 Ordnance Survey AC0000XXXXXX. Use of this data is subject to Ordnance Survey",
+      width: "720px",
+      height: "720px",
+      layer_controls: "false",
+ 
+      layers:[
+        {
+          path_to_geometry: "/public/data/liskeard_cc_part.geojson",
+          description:"Part of title",
+          interactive: "false",
+          style:" DASH"
+        }
+      ],
+      tile_url: 'https://api.os.uk/maps/raster/v1/zxy/Outdoor_27700/{z}/{x}/{y}.png?key=' + data.PROJECT_API_KEY
+    }) }}  
+  </div>
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block pageScripts %}
+<script>
+
+  var retrievedMap;
+  
+  function initializeDrawTools(map) {
+    document
+      .querySelectorAll(`input[type="radio"].${CONFIG.SELECTORS.RADIO_CLASS}`)
+      .forEach((radio) => {
+        radio.addEventListener('change', (e) => setDrawMode(map, e.target.value));
+      });
+
+      setDrawMode(map, 'draw-area')
+
+      const undoBtn = document.getElementById('undoBtn');
+      if (undoBtn) undoBtn.addEventListener('click', undo);
+
+  }
+
+  document.addEventListener("DOMContentLoaded", (event) => {
+    retrievedMap = document.getElementById('map1')._olMap;
+    initializeDrawTools(retrievedMap);
+  })
+
+/*   function setCenter(coords) {
+    retrievedMap.getView().setCenter(coords);
+  } */
+
+
+
+
+</script>
+{% endblock %}
